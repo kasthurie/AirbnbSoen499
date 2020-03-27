@@ -18,7 +18,6 @@ data.fillna({'reviews_per_month': 0}, inplace=True)
 # model price distribution on whole data set
 sb.distplot(data['price'], rug=True)
 
-print(data.isnull().sum())
 print(data['room_type'].value_counts())
 
 
