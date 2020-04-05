@@ -35,16 +35,16 @@ data['log_reviews'] = np.log(1+data['number_of_reviews'])
 data = pd.get_dummies(data)
 
 # prepare linearRegression model
-x = data.copy().drop('price', axis=1)
-y = data['price'].copy()
-x_train, x_test, y_train, y_test = train_test_split(x, y)
-
-lr = LinearRegression()
-lr.fit(x_train, y_train)
-y_pred = lr.predict(x_test)
-
-r2_score = lr.score((y_test, y_pred))
-print(r2_score)
+# x = data.copy().drop('price', axis=1)
+# y = data['price'].copy()
+# x_train, x_test, y_train, y_test = train_test_split(x, y)
+#
+# lr = LinearRegression()
+# lr.fit(x_train, y_train)
+# y_pred = lr.predict(x_test)
+#
+# r2_score = lr.score((y_test, y_pred))
+# print(r2_score)
 
 
 
