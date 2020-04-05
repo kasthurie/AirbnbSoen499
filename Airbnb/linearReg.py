@@ -16,8 +16,8 @@ data.drop(['last_review', 'id', 'name', 'host_id', 'host_name'], axis=1, inplace
 data.fillna({'reviews_per_month': 0}, inplace=True)
 
 print(data.isnull().sum())
-# Exploratory Data Analysis
-# sb.distplot(data['price'], rug=True)
+Exploratory Data Analysis
+sb.distplot(data['price'], rug=True)
 # data.boxplot(column='price', by='neighbourhood_group')
 # data.boxplot(column='price', by='neighbourhood')
 # data.boxplot(column='price', by='room_type')
