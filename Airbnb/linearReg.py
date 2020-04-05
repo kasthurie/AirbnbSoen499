@@ -5,47 +5,56 @@ import matplotlib.pyplot as plt
 import seaborn as sb
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
-from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 
 # load data
 data = pd.read_csv('../data/AB_NYC_2019.csv')
+print(data.head(10))
 
 # data preparation
-data.drop(['last_review', 'id', 'name', 'host_id', 'host_name'], axis=1, inplace=True)
-data.fillna({'reviews_per_month': 0}, inplace=True)
-
 print(data.isnull().sum())
-# Exploratory Data Analysis
-sb.distplot(data['price'], rug=True)
-data.boxplot(column='price', by='neighbourhood_group')
-data.boxplot(column='price', by='neighbourhood')
-data.boxplot(column='price', by='room_type')
-data.boxplot(column='price', by='number_of_reviews')
-plt.figure(figsize=(20, 8))
-plt.scatter(np.log(1+data['number_of_reviews']), data['price'])
-plt.title('Price vs log(number_of_reviews)')
-data.plot.scatter(x='longitude', y='latitude', c='price', cmap='cool', alpha=0.5)
-data[data['price'] < data['price'].mean()].plot.scatter(x='longitude', y='latitude', c='price', cmap='cool', alpha=0.5)
-data[data['price'] > data['price'].mean()].plot.scatter(x='longitude', y='latitude', c='price', cmap='cool', alpha=0.5)
-plt.show()
+data.drop(['id', 'name', 'host_id', 'host_name', 'last_review'], axis=1, inplace=True)
+print(print(data.isnull().sum()))
+data.fillna({'reviews_per_month': 0}, inplace=True)
+print(print(data.isnull().sum()))
+Min_Price = min(data['price'].value_counts())
+Max_Price = max(data['price'].value_counts())
+Mean_Price = data['price'].value_counts().mean()
 
-# feature engineering
-data['log_reviews'] = np.log(1+data['number_of_reviews'])
-data = pd.get_dummies(data)
-
-# prepare linearRegression model
-# x = data.copy().drop('price', axis=1)
-# y = data['price'].copy()
-# x_train, x_test, y_train, y_test = train_test_split(x, y)
+# if Mean_Price*2 < data['price'] & data['price'] < Mean_Price*4:
+#     data['Category'] = 'Expensive'
+# elif data['price'] >= Mean_Price*4:
+#     data['Category'] = 'Super Expensive'
+# elif Mean_Price < data['price'] & data['price'] <= Mean_Price*2:
+#     data['Category'] = 'Medium'
+# elif Mean_Price*(3/4) < data['price'] & data['price'] <=Mean_Price:
+#     data['Category'] = 'Reasonable'
+# elif Mean_Price/2 < data['price'] & data['price'] <= Mean_Price*(3/4):
+#     data['Category'] = 'Cheap'
+# elif data['price'] <= Mean_Price/2:
+#     data['Category'] = 'Very Cheap'
 #
-# lr = LinearRegression()
-# lr.fit(x_train, y_train)
-# y_pred = lr.predict(x_test)
-#
-# r2_score = lr.score((y_test, y_pred))
-# print(r2_score)
+# print(data['Category'].value_counts())
 
+data['Category'] = data['price'].apply(lambda x: 'Super Expensive' if x > Mean_Price * 4
+else ('Expensive' if Mean_Price * 2 <= x < Mean_Price * 4
+      else ('Medium' if Mean_Price <= x < Mean_Price * 2
+            else ('Reasonable' if Mean_Price * (3 / 4) <= x < Mean_Price
+                  else ('Cheap' if Mean_Price / 2 <= x < Mean_Price * (3 / 4)
+                        else 'very cheap')))))
 
+print(data['Category'].value_counts())
+
+data.drop(['neighbourhood', 'latitude', 'longitude', 'number_of_reviews', 'reviews_per_month'], axis=1,inplace=True)
+print(data.isnull().sum())
+
+def Encode(f):
+    for column in data.columns[data.columns.isin(['neighbourhood_group', 'room_type', 'Category'])]:
+        data[column] = data[column].factorize()[0]
+    return data
+
+new_data = Encode(data.copy())
+print(new_data)
+print(new_data.info())
 
 
