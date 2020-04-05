@@ -11,7 +11,7 @@ Analysis of a dataset to recommend in which neighbourhood in New York one should
 # Proposal
 
 ## Abstract
-Airbnb is an online rental marketplace that gained a huge popularity over the years. In this paper, we will try to predict the price of Airbnb listings in New York city. We will describe this idea and its aspects in more detail such as how different neighborhoods, availability and other features can have an impact on the pricing of different types of rental properties in Airbnb. A dataset from Kaggle will be used for the data analysis. Then, the technologies used will be described.  
+Airbnb is an online rental marketplace that gained a huge popularity over the years. In this paper, we will try to predict the price of Airbnb listings in New York city. We will describe this idea and its aspects in more detail such as how different neighborhoods, availability and other features can have an impact on the pricing of different types of rental properties in Airbnb. A dataset from Kaggle will be used for the data analysis. Then, we will implement regression and random forest algorithms and discuss the results. 
 
 ## 1. Introduction
 <b> 1.1 Context</b><br/>
@@ -37,7 +37,7 @@ For the analysis, the dataset called New York City Airbnb Open Data from [Kaggle
 
 <b>2.1 Clustering Technique<br/></b>
 
-First, we will use unsupervised learning, particularly the clustering algorithm to group the data based on pricing, types of accommodations, neighborhood, etc. We will use the K-Means algorithm and this will give us a better picture of the dataset, by grouping the data that have similar features. In order to do so, we will first randomly select k-number of centroids and then allocate every data point (which is every listing of Airbnb in our dataset) to the nearest cluster. 
+First, we will use supervised learning, particularly the regression algorithm to predict the pricing based on features such as types of accommodations, neighborhood, etc. We will use the multiple linear regression since our dataset has more than two variables. This algorithm gives us a better picture of which feature impacts the most the output (the price in our case) and how different features are related to each other. In order to do so, we would first need to separate our dataset into attributes (X variable) and labels (pricing), which is the Y variable. Then we will split 80% of the data to the training set, 20% of the data to test and will train the model. Finally, we can compare the actual and predicted results.
 
 <b>2.3 Random Forest<br/></b>
 
