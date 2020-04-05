@@ -20,7 +20,7 @@ Airbnb is an online rental marketplace that allows hosts to rent out accommodati
 
 <b>1.2 Objectives <br/></b>
 
-The goal of this project is to analyze the dataset and predict the price of the different types of accommodations in the neighborhoods of New York. The project will be to analyze a dataset using two techniques seen in class. We will use clustering and random forest to classify data and make predictions.
+The goal of this project is to analyze the dataset and predict the price of the different types of accommodations in the neighborhoods of New York. The project will be to analyze a dataset using two techniques seen in class. We will use linear regression and random forest to classify data and make predictions.
 
 <b>1.3 Problem to Solve <br/></b>
 
