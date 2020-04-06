@@ -22,20 +22,20 @@ Min_Price = min(data['price'].value_counts())
 Max_Price = max(data['price'].value_counts())
 Mean_Price = data['price'].value_counts().mean()
 
-# if Mean_Price*2 < data['price'] & data['price'] < Mean_Price*4:
-#     data['Category'] = 'Expensive'
-# elif data['price'] >= Mean_Price*4:
-#     data['Category'] = 'Super Expensive'
-# elif Mean_Price < data['price'] & data['price'] <= Mean_Price*2:
-#     data['Category'] = 'Medium'
-# elif Mean_Price*(3/4) < data['price'] & data['price'] <=Mean_Price:
-#     data['Category'] = 'Reasonable'
-# elif Mean_Price/2 < data['price'] & data['price'] <= Mean_Price*(3/4):
-#     data['Category'] = 'Cheap'
-# elif data['price'] <= Mean_Price/2:
-#     data['Category'] = 'Very Cheap'
-#
-# print(data['Category'].value_counts())
+if Mean_Price*2 < data['price'] & data['price'] < Mean_Price*4:
+    data['Category'] = 'Expensive'
+elif data['price'] >= Mean_Price*4:
+    data['Category'] = 'Super Expensive'
+elif Mean_Price < data['price'] & data['price'] <= Mean_Price*2:
+    data['Category'] = 'Medium'
+elif Mean_Price*(3/4) < data['price'] & data['price'] <=Mean_Price:
+    data['Category'] = 'Reasonable'
+elif Mean_Price/2 < data['price'] & data['price'] <= Mean_Price*(3/4):
+    data['Category'] = 'Cheap'
+elif data['price'] <= Mean_Price/2:
+    data['Category'] = 'Very Cheap'
+
+print(data['Category'].value_counts())
 
 data['Category'] = data['price'].apply(lambda x: 'Super Expensive' if x > Mean_Price * 4
 else ('Expensive' if Mean_Price * 2 <= x < Mean_Price * 4
@@ -46,49 +46,26 @@ else ('Expensive' if Mean_Price * 2 <= x < Mean_Price * 4
 
 print(data['Category'].value_counts())
 
-data.drop(['neighbourhood', 'latitude', 'longitude', 'number_of_reviews', 'reviews_per_month'], axis=1,inplace=True)
-print(data.isnull().sum())
+data.drop(['neighbourhood', 'latitude', 'longitude', 'number_of_reviews', 'reviews_per_month'], axis=1, inplace=True)
 
+# encode data
 def Encode(f):
     for column in data.columns[data.columns.isin(['neighbourhood_group', 'room_type', 'Category'])]:
         data[column] = data[column].factorize()[0]
     return data
 
 new_data = Encode(data.copy())
-print(new_data)
-print(new_data.info())
 
-
+# prediction using linearRegression model
 x = new_data.iloc[:, [0, 1, 5, 6]]
 y = new_data['price']
-
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=353)
-reg = LinearRegression()
-reg.fit(x_train, y_train)
-y_pred = reg.predict(x_test)
 
-print(r2_score(y_test, y_pred))
+model = LinearRegression()
+model.fit(x_train, y_train)
+y_pred = model.predict(x_test)
 
-x = new_data.iloc[:, [0, 1, 5]]
-y = new_data['price']
-
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=353)
-reg = LinearRegression()
-reg.fit(x_train, y_train)
-y_pred = reg.predict(x_test)
-
-print(r2_score(y_test, y_pred))
-
-x = new_data.iloc[:, [0, 1, 5, 6]]
-y = new_data['price']
-
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=353)
-reg = LinearRegression()
-reg.fit(x_train, y_train)
-y_pred = reg.predict(x_test)
-
-print(r2_score(y_test, y_pred))
-
-
-
-
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+print(rmse)
+accuracy = r2_score(y_test, y_pred)
+print(accuracy)
