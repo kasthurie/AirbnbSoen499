@@ -10,32 +10,33 @@ from sklearn.model_selection import train_test_split
 
 # load data
 data = pd.read_csv('../data/AB_NYC_2019.csv')
-print(data.head(10))
+# print(data.head(10))
 
 # data preparation
-print(data.isnull().sum())
+# print(data.isnull().sum())
 data.drop(['id', 'name', 'host_id', 'host_name', 'last_review'], axis=1, inplace=True)
-print(print(data.isnull().sum()))
+# print(print(data.isnull().sum()))
 data.fillna({'reviews_per_month': 0}, inplace=True)
-print(print(data.isnull().sum()))
+# print(print(data.isnull().sum()))
 Min_Price = min(data['price'].value_counts())
 Max_Price = max(data['price'].value_counts())
 Mean_Price = data['price'].value_counts().mean()
 
-if Mean_Price*2 < data['price'] & data['price'] < Mean_Price*4:
-    data['Category'] = 'Expensive'
-elif data['price'] >= Mean_Price*4:
-    data['Category'] = 'Super Expensive'
-elif Mean_Price < data['price'] & data['price'] <= Mean_Price*2:
-    data['Category'] = 'Medium'
-elif Mean_Price*(3/4) < data['price'] & data['price'] <=Mean_Price:
-    data['Category'] = 'Reasonable'
-elif Mean_Price/2 < data['price'] & data['price'] <= Mean_Price*(3/4):
-    data['Category'] = 'Cheap'
-elif data['price'] <= Mean_Price/2:
-    data['Category'] = 'Very Cheap'
-
-print(data['Category'].value_counts())
+# for x in data['price']:
+#     if Mean_Price*2 < x & x < Mean_Price*4:
+#         data['Category'] = 'Expensive'
+#     elif x >= Mean_Price*4:
+#         data['Category'] = 'Super Expensive'
+#     elif Mean_Price < x & x <= Mean_Price*2:
+#         data['Category'] = 'Medium'
+#     elif Mean_Price*(3/4) < x & x <= Mean_Price:
+#         data['Category'] = 'Reasonable'
+#     elif Mean_Price/2 < x & x <= Mean_Price*(3/4):
+#         data['Category'] = 'Cheap'
+#     elif x <= Mean_Price/2:
+#         data['Category'] = 'Very Cheap'
+#
+# print(data['Category'].value_counts())
 
 data['Category'] = data['price'].apply(lambda x: 'Super Expensive' if x > Mean_Price * 4
 else ('Expensive' if Mean_Price * 2 <= x < Mean_Price * 4
