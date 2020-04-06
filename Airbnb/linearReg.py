@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sb
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
+from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 
 # load data
@@ -56,5 +57,38 @@ def Encode(f):
 new_data = Encode(data.copy())
 print(new_data)
 print(new_data.info())
+
+
+x = new_data.iloc[:, [0, 1, 5, 6]]
+y = new_data['price']
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=353)
+reg = LinearRegression()
+reg.fit(x_train, y_train)
+y_pred = reg.predict(x_test)
+
+print(r2_score(y_test, y_pred))
+
+x = new_data.iloc[:, [0, 1, 5]]
+y = new_data['price']
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=353)
+reg = LinearRegression()
+reg.fit(x_train, y_train)
+y_pred = reg.predict(x_test)
+
+print(r2_score(y_test, y_pred))
+
+x = new_data.iloc[:, [0, 1, 5, 6]]
+y = new_data['price']
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=353)
+reg = LinearRegression()
+reg.fit(x_train, y_train)
+y_pred = reg.predict(x_test)
+
+print(r2_score(y_test, y_pred))
+
+
 
 
