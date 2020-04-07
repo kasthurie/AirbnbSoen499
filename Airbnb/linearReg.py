@@ -66,7 +66,7 @@ print('accuracy(R2 score) = ', accuracy)
 # Evaluated predictions
 plt.figure(figsize=(15, 7))
 plt.xlim(-10, 50)
-sb.regplot(y=y_test, x=y_pred, color='blue')
+sb.regplot(y=y_test, x=y_pred, color='red')
 plt.title('Evaluated predictions', fontsize=15)
 plt.xlabel('Predictions')
 plt.ylabel('Test')
