@@ -27,6 +27,7 @@ else ('Expensive' if Mean_Price * 2 <= p < Mean_Price * 4
                   else ('Cheap' if Mean_Price / 2 <= p < Mean_Price * (3 / 4)
                         else 'very cheap')))))
 
+
 # print(data['Category'].value_counts())
 
 data.drop(['neighbourhood', 'number_of_reviews', 'reviews_per_month'], axis=1, inplace=True)
