@@ -6,53 +6,31 @@ import seaborn as sb
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
+from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 
 # load data
 data = pd.read_csv('../data/AB_NYC_2019.csv')
-# print(data.head(10))
 
 # data preparation
-# print(data.isnull().sum())
 data.drop(['id', 'name', 'host_id', 'host_name', 'last_review'], axis=1, inplace=True)
-# print(print(data.isnull().sum()))
 data.fillna({'reviews_per_month': 0}, inplace=True)
-# print(print(data.isnull().sum()))
+
 Min_Price = min(data['price'].value_counts())
 Max_Price = max(data['price'].value_counts())
 Mean_Price = data['price'].value_counts().mean()
 
-# for x in data['price']:
-#     if Mean_Price*2 < x & x < Mean_Price*4:
-#         data['Category'] = 'Expensive'
-#     elif x >= Mean_Price*4:
-#         data['Category'] = 'Super Expensive'
-#     elif Mean_Price < x & x <= Mean_Price*2:
-#         data['Category'] = 'Medium'
-#     elif Mean_Price*(3/4) < x & x <= Mean_Price:
-#         data['Category'] = 'Reasonable'
-#     elif Mean_Price/2 < x & x <= Mean_Price*(3/4):
-#         data['Category'] = 'Cheap'
-#     elif x <= Mean_Price/2:
-#         data['Category'] = 'Very Cheap'
-#
-# print(data['Category'].value_counts())
-
-data['Category'] = data['price'].apply(lambda x: 'Super Expensive' if x > Mean_Price * 4
-else ('Expensive' if Mean_Price * 2 <= x < Mean_Price * 4
-      else ('Medium' if Mean_Price <= x < Mean_Price * 2
-            else ('Reasonable' if Mean_Price * (3 / 4) <= x < Mean_Price
-                  else ('Cheap' if Mean_Price / 2 <= x < Mean_Price * (3 / 4)
+data['Category'] = data['price'].apply(lambda p: 'Super Expensive' if p > Mean_Price * 4
+else ('Expensive' if Mean_Price * 2 <= p < Mean_Price * 4
+      else ('Medium' if Mean_Price <= p < Mean_Price * 2
+            else ('Reasonable' if Mean_Price * (3 / 4) <= p < Mean_Price
+                  else ('Cheap' if Mean_Price / 2 <= p < Mean_Price * (3 / 4)
                         else 'very cheap')))))
 
-<<<<<<< HEAD
 
 # print(data['Category'].value_counts())
-=======
-print(data['Category'].value_counts())
->>>>>>> 28bd0857c0139508da93814cd99f70e76fdfb4e5
 
-data.drop(['neighbourhood', 'latitude', 'longitude', 'number_of_reviews', 'reviews_per_month'], axis=1, inplace=True)
+data.drop(['neighbourhood', 'number_of_reviews', 'reviews_per_month'], axis=1, inplace=True)
 
 # encode data
 def Encode(f):
@@ -61,9 +39,10 @@ def Encode(f):
     return data
 
 new_data = Encode(data.copy())
+print(new_data.isnull().sum())
 
 # prediction using linearRegression model
-x = new_data.iloc[:, [0, 1, 5, 6]]
+x = new_data.iloc[:, [0, 1, 2, 3, 7, 8]]
 y = new_data['price']
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=353)
 
@@ -71,7 +50,25 @@ model = LinearRegression()
 model.fit(x_train, y_train)
 y_pred = model.predict(x_test)
 
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-print(rmse)
+# Evaluated Metrics
+# MAE(Mean Absolute Error) shows the difference between predictions and actual values
+MAE = mean_absolute_error(y_test, y_pred)
+print('MAE(Mean Absolute Error) = ', MAE)
+# MSE (Mean Squared Error)
+MSE = mean_squared_error(y_test, y_pred)
+print('MSE(mean squared error) = ', MSE)
+# RMSE(Root mean squared error) shows how accurately the model predicts the response
+RMSE = np.sqrt(mean_squared_error(y_test, y_pred))
+print('RMSE(Root mean squared error) = ', RMSE)
+# R^2(R2 score) will be calculated to find the goodness of fit measure
 accuracy = r2_score(y_test, y_pred)
-print(accuracy)
+print('accuracy(R2 score) = ', accuracy)
+
+# Evaluated predictions
+plt.figure(figsize=(15, 7))
+plt.xlim(-10, 50)
+sb.regplot(y=y_test, x=y_pred, color='red')
+plt.title('Evaluated predictions', fontsize=15)
+plt.xlabel('Predictions')
+plt.ylabel('Test')
+plt.show()
