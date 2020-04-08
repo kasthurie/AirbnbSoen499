@@ -8,41 +8,32 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score
+from sklearn import metrics
 
 # load data
 data = pd.read_csv('../data/AB_NYC_2019.csv')
 
 # data preparation
-data.drop(['id', 'name', 'host_id', 'host_name', 'last_review'], axis=1, inplace=True)
-data.fillna({'reviews_per_month': 0}, inplace=True)
+def clean_data(data: pd.DataFrame):
+    data = data.drop(columns=['id', 'name', 'host_id', 'host_name'])
+    data['last_review'] = pd.to_datetime(data['last_review'], infer_datetime_format=True)
 
-Min_Price = min(data['price'].value_counts())
-Max_Price = max(data['price'].value_counts())
-Mean_Price = data['price'].value_counts().mean()
+    earliest_dt = min(data['last_review'])
+    df = data.fillna({'reviews_per_month': 0, 'last_review': earliest_dt})
 
-data['Category'] = data['price'].apply(lambda p: 'Super Expensive' if p > Mean_Price * 4
-else ('Expensive' if Mean_Price * 2 <= p < Mean_Price * 4
-      else ('Medium' if Mean_Price <= p < Mean_Price * 2
-            else ('Reasonable' if Mean_Price * (3 / 4) <= p < Mean_Price
-                  else ('Cheap' if Mean_Price / 2 <= p < Mean_Price * (3 / 4)
-                        else 'very cheap')))))
+    df['last_review'] = df['last_review'].apply(lambda dt: dt.toordinal()-earliest_dt.toordinal())
 
+    # one-hot encode categorical data
+    data = pd.get_dummies(df)
 
-# print(data['Category'].value_counts())
-
-data.drop(['neighbourhood', 'number_of_reviews', 'reviews_per_month'], axis=1, inplace=True)
-
-# encode data
-def Encode(f):
-    for column in data.columns[data.columns.isin(['neighbourhood_group', 'room_type', 'Category'])]:
-        data[column] = data[column].factorize()[0]
     return data
 
-new_data = Encode(data.copy())
+new_data = clean_data(data)
 print(new_data.isnull().sum())
 
 # prediction using linearRegression model
-x = new_data.iloc[:, [0, 1, 2, 3, 7, 8]]
+x = new_data.drop(['price'], axis=1)
 y = new_data['price']
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=353)
 
