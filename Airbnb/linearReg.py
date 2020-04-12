@@ -44,10 +44,10 @@ y_pred_train = model.predict(x_train)
 
 # Evaluated Metrics
 # MAE(Mean Absolute Error) shows the difference between predictions and actual values
-MAE_test = mean_absolute_error(y_test, y_pred_test)
-print('MAE(Mean Absolute Error)_test = ', MAE_test)
-MAE_train = mean_absolute_error(y_train, y_pred_train)
-print('MAE(Mean Absolute Error)_train = ', MAE_train)
+# MAE_test = mean_absolute_error(y_test, y_pred_test)
+# print('MAE(Mean Absolute Error)_test = ', MAE_test)
+# MAE_train = mean_absolute_error(y_train, y_pred_train)
+# print('MAE(Mean Absolute Error)_train = ', MAE_train)
 
 # MSE (Mean Squared Error)
 MSE_test = mean_squared_error(y_test, y_pred_test)
@@ -55,11 +55,11 @@ print('MSE(mean squared error)_test = ', MSE_test)
 MSE_train = mean_squared_error(y_train, y_pred_train)
 print('MSE(mean squared error)_train = ', MSE_train)
 
-# RMSE(Root mean squared error) shows how accurately the model predicts the response
-RMSE_test = np.sqrt(mean_squared_error(y_test, y_pred_test))
-print('RMSE(Root mean squared error)_test = ', RMSE_test)
-RMSE_train = np.sqrt(mean_squared_error(y_train, y_pred_train))
-print('RMSE(Root mean squared error)_train = ', RMSE_train)
+# # RMSE(Root mean squared error) shows how accurately the model predicts the response
+# RMSE_test = np.sqrt(mean_squared_error(y_test, y_pred_test))
+# print('RMSE(Root mean squared error)_test = ', RMSE_test)
+# RMSE_train = np.sqrt(mean_squared_error(y_train, y_pred_train))
+# print('RMSE(Root mean squared error)_train = ', RMSE_train)
 
 # R^2(R2 score) will be calculated to find the goodness of fit measure
 accuracy_test = r2_score(y_test, y_pred_test)
@@ -67,12 +67,13 @@ print('accuracy(R2 score)_test = ', accuracy_test)
 accuracy_train = r2_score(y_train, y_pred_train)
 print('accuracy(R2 score)_train = ', accuracy_train)
 
+
 # Evaluated predictions
-plt.figure(figsize=(15, 7))
-plt.xlim(-10, 50)
-sb.regplot(y=y_test, x=y_pred, color='red')
-plt.title('Evaluated predictions', fontsize=15)
-plt.xlabel('Predictions')
-plt.ylabel('Test')
-plt.show()
-#
+# plt.figure(figsize=(15, 7))
+# plt.xlim(-10, 50)
+# sb.regplot(y=y_test, x=y_pred, color='red')
+# plt.title('Evaluated predictions', fontsize=15)
+# plt.xlabel('Predictions')
+# plt.ylabel('Test')
+# plt.show()
+# #
