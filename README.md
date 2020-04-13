@@ -40,7 +40,7 @@ They also got a R squared of 0.51 and a RMSE of 0.26 for the spatial hedonic mod
 ## 2. Materials and Methods
 <b>2.1 Dataset(s)<br/></b>
 
-For the analysis, the dataset called “AB_NYC_2019” from [Kaggle](https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data) was used. This dataset is for public use and is taken from the website called[Inside Airbnb](http://insideairbnb.com/). This dataset contains information and metrics for Airbnb listings in New York City for 2019. It has about 49,000 rows and the following columns:<br>
+For the analysis, the dataset called “AB_NYC_2019” from [Kaggle](https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data) was used. This dataset is for public use and is taken from the website called [Inside Airbnb](http://insideairbnb.com/). This dataset contains information and metrics for Airbnb listings in New York City for 2019. It has about 49,000 rows and the following columns:<br>
 
 -ID (listing ID)<br>
 -Name (name of the listing)<br>
