@@ -1,6 +1,6 @@
 ## AirbnbSoen499
 
-Analysis of a dataset to price of Airbnb in different neighbourhood in New York.
+Analysis of a dataset to predict price of Airbnb in different neighbourhood in New York.
 
 ## Team Members:
 1. Kasthurie Paramasivampillai- 40025088
